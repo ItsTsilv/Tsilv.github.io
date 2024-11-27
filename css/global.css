@@ -190,3 +190,19 @@ footer {
     display: inline-block;
     font-size: 0.8rem;
 }
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #2c2c2c; /* Dark background */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4a4a4a; /* Lighter dark gray */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #6a6a6a; /* Even lighter on hover */
+}
