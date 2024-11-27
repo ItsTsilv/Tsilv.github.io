@@ -15,8 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
         "Web Designer",
         "Digital Marketer",
         "Blockchain Enthusiast",
-        "Robotics Engineer",
-        "UI/UX Designer",
         "Software Architect",
         "Artificial Intelligence Specialist",
         "Mobile App Developer",
