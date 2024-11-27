@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             image: './Photos/Sketchup.png', 
             name: 'Sketchup House', 
             type: 'House design',
-            description: 'Highschool house design project',
+            description: 'Highschool house design project.',
             technologies: ['Sketchup', 'Revit', '3D-Printing'],
             links: {
                 demo: '#',
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
             image: './Photos/woodzee.png', 
             name: 'Solidworks Glasses', 
             type: 'Woodzee glasses',
-            description: 'Highschool internship at Woodzee',
+            description: 'Highschool internship at Woodzee.',
             technologies: ['Solidworks', '3D-printing', 'AutoCAD'],
             links: {
                 demo: '#',
