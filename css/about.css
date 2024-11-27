@@ -1,0 +1,155 @@
+/* About Section Styling */
+.about-section {
+    background-color: rgb(219, 222, 236);
+    border-radius: 20px;
+    padding: 60px 20px;
+    margin: 40px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.profile-image {
+    flex: 0 0 300px;
+}
+
+.profile-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.profile-text {
+    flex: 1;
+}
+
+.profile-text h2 {
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2.5rem;
+}
+
+.profile-text p {
+    color: #444444;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.skill-cycle {
+    color: #414141;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 200px;
+}
+
+.skill-cycle.fade {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.skill-cycle.fade-in {
+    opacity: 1;
+}
+
+/* Skills Section Styling */
+.skills-section {
+    background-color: rgb(219, 222, 236);
+    border-radius: 20px;
+    padding: 60px 20px;
+    margin: 40px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.skill-card {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: all 0.5s ease;
+}
+
+.skill-card i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: #747474;
+}
+
+.skill-bar {
+    background-color: #c0c0c0;
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+.skill-level {
+    background-color: #747474;
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease;
+}
+
+/* Experience Section Styling */
+.experience-section {
+    background-color: rgb(219, 222, 236);
+    border-radius: 20px;
+    padding: 60px 20px;
+    margin: 40px 0;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-item {
+    padding: 20px;
+    background-color: rgb(255, 255, 255);
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.timeline-content h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.timeline-content .date {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+}
+
+.timeline-content p {
+    color: #666;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-image {
+        max-width: 300px;
+        margin-bottom: 20px;
+    }
+
+    .skills-grid {
+        grid-template-columns: 1fr;
+    }
+}

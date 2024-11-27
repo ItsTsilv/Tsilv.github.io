@@ -1,0 +1,46 @@
+/* Fade In Animation */
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Slide In Animation */
+.slide-in {
+    opacity: 0;
+    transform: translateX(-50px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.slide-in.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Skill Card Animation */
+.skill-card {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+}
+
+.skill-card.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.skill-card.exit {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* Skill Level Animation */
+.skill-level {
+    width: 0;
+    transition: width 0.5s ease;
+}

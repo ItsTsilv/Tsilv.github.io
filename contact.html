@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Trevor Silverman</title>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-section fade-in">
+            <div class="container">
+                <h1>Contact Me</h1>
+                <div class="contact-content">
+                    <!-- Form with Formspree integration -->
+                    <form id="contact-form" 
+                        action="https://formspree.io/f/xanypdop" 
+                        method="POST" 
+                        class="contact-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" id="name" name="name" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" class="form-input" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" class="form-input" required></textarea>
+                        </div>
+                        
+                        <!-- Form Status Messages -->
+                        <div id="form-status" class="form-status">
+                            <div id="form-success" class="success-message">
+                                <i class="fas fa-check-circle"></i> 
+                                Thank you! Your message has been sent successfully.
+                            </div>
+                            <div id="form-error" class="error-message">
+                                <i class="fas fa-exclamation-circle"></i> 
+                                Oops! There was a problem sending your message. Please try again.
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+
+                    <div class="contact-details">
+                        <h2>Contact Information</h2>
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email</h4>
+                                    <p>trevorjs13@gmail.com</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone"></i>
+                                <div>
+                                    <h4>Phone</h4>
+                                    <p>Email or send me a message for more info</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h4>Location</h4>
+                                    <p>Portland, OR</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="social-icons">
+                            <a href="https://github.com/ItsTsilv" target="_blank" class="social-icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="https://www.linkedin.com/in/trevor-silverman-44a5302b1/" target="_blank" class="social-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://www.instagram.com/trevor_silverman/?hl=en" target="_blank" class="social-icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Trevor Silverman. All rights reserved.</p>
+    </footer>
+
+    <script src="js/global.js"></script>
+    <script src="js/contact.js"></script>
+</body>
+</html>
