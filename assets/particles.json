@@ -14,7 +14,7 @@
         "type": "circle",
         "stroke": {
           "width": 0,
-          "color": "#000000"
+          "color": "#f2f2f2"
         },
         "polygon": {
           "nb_sides": 5
@@ -43,7 +43,7 @@
       "line_linked": {
         "enable": true,
         "distance": 150,
-        "color": "#ffffff",
+        "color": "#918feb",
         "opacity": 0.4,
         "width": 1
       },
@@ -63,7 +63,7 @@
       }
     },
     "interactivity": {
-      "detect_on": "canvas",
+      "detect_on": "window",
       "events": {
         "onhover": {
           "enable": true,
