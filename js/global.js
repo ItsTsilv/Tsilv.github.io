@@ -1,32 +1,73 @@
 document.addEventListener('DOMContentLoaded', function () {
     console.log('Global script loaded');
     
-    // Basic navigation active state
+    // =============== NAVIGATION FUNCTIONALITY ===============
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const navLinks = document.querySelector('.nav-links');
+    let isMenuOpen = false;
+
+    // Set active page
     const currentPage = window.location.pathname.split('/').pop();
-    const navLinks = document.querySelectorAll('nav ul li a');
-    
-    navLinks.forEach(link => {
+    document.querySelectorAll('.nav-links a').forEach(link => {
         if (link.getAttribute('href') === currentPage) {
             link.classList.add('active');
         }
     });
 
-    // Initialize particles.js
+    if (mobileMenuButton && navLinks) {
+        mobileMenuButton.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            mobileMenuButton.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            
+            // Change menu icon
+            const menuIcon = mobileMenuButton.querySelector('.menu-icon');
+            menuIcon.textContent = isMenuOpen ? '×' : '☰';
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuButton.contains(e.target) && isMenuOpen) {
+                isMenuOpen = false;
+                mobileMenuButton.classList.remove('active');
+                navLinks.classList.remove('active');
+                mobileMenuButton.querySelector('.menu-icon').textContent = '☰';
+            }
+        });
+
+        // Close menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                isMenuOpen = false;
+                mobileMenuButton.classList.remove('active');
+                navLinks.classList.remove('active');
+                mobileMenuButton.querySelector('.menu-icon').textContent = '☰';
+            });
+        });
+    }
+
+    // =============== PARTICLES.JS INITIALIZATION ===============
     particlesJS.load('particles-js', 'assets/particles.json', function() {
         console.log('particles.js loaded - callback');
     });
 
-    // Add smooth scrolling to all links
+    // =============== SMOOTH SCROLLING ===============
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
+            const href = this.getAttribute('href');
+            if (href !== '#') {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            }
         });
     });
 
-    // Add animation on scroll
+    // =============== SCROLL ANIMATIONS ===============
     const observerOptions = {
         threshold: 0.1
     };
@@ -39,12 +80,12 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }, observerOptions);
 
-    // Observe all sections with animations
     document.querySelectorAll('.fade-in, .slide-in').forEach((element) => {
         observer.observe(element);
     });
 });
 
+// =============== PAGE LOAD ANIMATION ===============
 window.addEventListener('load', function() {
     document.body.classList.add('loaded');
 });

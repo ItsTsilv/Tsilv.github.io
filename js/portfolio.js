@@ -98,9 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
                         ${project.technologies.map(tech => `<span class="skill-tag">${tech}</span>`).join('')}
                     </div>
                     <div class="project-links">
-                        <a href="${project.links.demo}" class="project-link">
-                            <i class="fas fa-link"></i> Live Demo
-                        </a>
                         <a href="${project.links.github}" class="project-link">
                             <i class="fab fa-github"></i> GitHub
                         </a>
