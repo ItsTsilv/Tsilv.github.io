@@ -9,8 +9,28 @@ body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
-    background-color: #f4f4f4;
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
 }
+
+/* Particles Background */
+#particles-js {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(45deg, #918feb, #ffffff);
+    z-index: -1;
+}
+
+/* Make sure content appears above particles */
+header, main, footer {
+    position: relative;
+    z-index: 1;
+}
+
 
 /* Container */
 .container {
@@ -22,12 +42,13 @@ body {
 
 /* Header styles */
 header {
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.9);
     padding: 1rem 0;
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 100;
+    backdrop-filter: blur(5px);
 }
 
 /* Navigation styles */
@@ -68,7 +89,7 @@ section {
 
 /* Skill card base styles */
 .skill-card {
-    background: rgb(177, 177, 177);
+    background: rgba(177, 177, 177, 0.9);
     padding: 1.2rem;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
@@ -112,7 +133,7 @@ section {
 
 .timeline-item {
     padding: 20px;
-    background-color: #b1b1b1;
+    background-color: rgba(177, 177, 177, 0.9);
     margin-bottom: 20px;
     border-radius: 10px;
 }
@@ -124,11 +145,12 @@ section {
 
 /* Footer styles */
 footer {
-    background-color: #333;
+    background-color: rgba(51, 51, 51, 0.9);
     color: rgb(190, 190, 190);
     text-align: center;
     padding: 20px 0;
     margin-top: 60px;
+    backdrop-filter: blur(5px);
 }
 
 /* Responsive design */
@@ -181,16 +203,6 @@ footer {
 }
 
 /* Navigation Styles */
-header {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-    background-color: white;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
 .nav-container {
     display: flex;
     justify-content: space-between;
@@ -259,7 +271,7 @@ header {
         left: -100%;
         top: 0;
         flex-direction: column;
-        background-color: white;
+        background-color: rgba(255, 255, 255, 0.9);
         width: 100%;
         height: 100vh;
         text-align: center;
@@ -267,6 +279,7 @@ header {
         box-shadow: 0 0 10px rgba(0,0,0,0.1);
         padding-top: 80px;
         z-index: 1000;
+        backdrop-filter: blur(5px);
     }
 
     .nav-menu.active {
@@ -297,7 +310,7 @@ header {
 
 /* Skill tag styles */
 .skill-tag {
-    background-color: #cfcfcf;
+    background-color: rgba(207, 207, 207, 0.9);
     color: #495057;
     padding: 5px 10px;
     border-radius: 20px;
@@ -305,19 +318,21 @@ header {
     display: inline-block;
     font-size: 0.8rem;
 }
+
+/* Scrollbar styles */
 ::-webkit-scrollbar {
     width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-    background: #2c2c2c; /* Dark background */
+    background: #2c2c2c;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #4a4a4a; /* Lighter dark gray */
+    background: #4a4a4a;
     border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: #6a6a6a; /* Even lighter on hover */
+    background: #6a6a6a;
 }

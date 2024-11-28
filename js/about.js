@@ -6,10 +6,10 @@ document.addEventListener('DOMContentLoaded', function () {
         "Hardware Enthusiast",
         "Programmer", 
         "Data Analyst",
-        "Cybersecurity Expert",
-        "Machine Learning Engineer",
+        "Cybersecurity Enthusiast",
+        "Machine Learning Developer",
         "AI Researcher",
-        "DevOps Engineer",
+        "Azure DevOps User",
         "Network Administrator",
         "Software Developer",
         "Web Designer",
@@ -19,10 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
         "Artificial Intelligence Specialist",
         "Mobile App Developer",
         "Systems Integrator",
-        "Database Administrator",
-        "Skier", 
-        "Gamer", 
-        "Human :)"
+        "Database Administrator"
     ];
     let personalSkillIndex = 0;
     const skillElement = document.querySelector('.skill-cycle');

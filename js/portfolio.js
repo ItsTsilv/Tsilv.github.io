@@ -1,28 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // =============== SCROLL ANIMATIONS ===============
-    const animateElements = document.querySelectorAll('.fade-in, .slide-in');
-
-    function checkScroll() {
-        animateElements.forEach(element => {
-            const elementTop = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-
-            if (elementTop < windowHeight * 0.8) {
-                element.classList.add('active');
-            }
-        });
-    }
-
-    checkScroll();
-    window.addEventListener('scroll', checkScroll);
-
-    // =============== TECHNICAL SKILLS ROTATION ===============
-    const technicalSkills = [
+    // Portfolio Projects Data
+    const portfolioProjects = [
         { 
             image: './Photos/prologsys.png', 
             name: 'Prolog Expert System', 
             type: 'College Project',
-            description:  'Expert system that recommends treatments.',
+            description: 'Expert system that recommends treatments.',
             technologies: ['Prolog', 'Perl', 'SWI'],
             links: {
                 demo: '#',
@@ -36,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
             description: 'The website being used right now!',
             technologies: ['HTML', 'CSS', 'Javascript'],
             links: {
-                demo: '#',
-                github: '#'
+                demo: 'https://itstsilv.github.io/Tsilv.github.io/index.html',
+                github: 'https://github.com/ItsTsilv/Tsilv.github.io'
             }
         },
         { 
@@ -97,86 +80,96 @@ document.addEventListener('DOMContentLoaded', function () {
         },
     ];
 
-    const skillsContainer = document.getElementById('skills-container');
+    const portfolioContainer = document.getElementById('portfolio-container');
     let currentIndex = 0;
-    const skillsPerSet = 3;
+    const projectsPerSet = 3;
 
-    function createSkillCard(skill) {
+    function createPortfolioCard(project) {
         return `
-            <div class="skill-card">
-                <img src="${skill.image}" alt="${skill.name}" class="project-image">
-                <h3>${skill.name}</h3>
-                <p>${skill.type}</p>
-                <div class="timeline">
-                    <div class="timeline-content">
-                        <p>${skill.description}</p>
-                        <div class="skills-grid">
-                            ${skill.technologies.map(tech => `<span class="skill-tag">${tech}</span>`).join('')}
-                        </div>
-                        <div class="project-links">
-                            <a href="${skill.links.demo}" class="skill-tag"><i class="fas fa-link"></i> Live Demo</a>
-                            <a href="${skill.links.github}" class="skill-tag"><i class="fab fa-github"></i> GitHub</a>
-                        </div>
+            <div class="portfolio-item">
+                <div class="portfolio-image">
+                    <img src="${project.image}" alt="${project.name}">
+                </div>
+                <div class="portfolio-content">
+                    <h3>${project.name}</h3>
+                    <p class="project-type">${project.type}</p>
+                    <p class="project-description">${project.description}</p>
+                    <div class="project-tags">
+                        ${project.technologies.map(tech => `<span class="skill-tag">${tech}</span>`).join('')}
+                    </div>
+                    <div class="project-links">
+                        <a href="${project.links.demo}" class="project-link">
+                            <i class="fas fa-link"></i> Live Demo
+                        </a>
+                        <a href="${project.links.github}" class="project-link">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
                     </div>
                 </div>
             </div>
         `;
     }
 
-    function updateTechnicalSkills() {
-        if (!skillsContainer) return;
+    function updatePortfolioProjects() {
+        if (!portfolioContainer) return;
 
-        const skillCards = skillsContainer.querySelectorAll('.skill-card');
+        const portfolioItems = portfolioContainer.querySelectorAll('.portfolio-item');
         
         // Add exit animation
-        skillCards.forEach((card, index) => {
-            // Modify the exit animation to match the previous movement
-            card.style.transitionDelay = `${0.1 * (index + 1)}s`;
-            card.classList.remove('active');
-            card.classList.add('exit');
+        portfolioItems.forEach((item, index) => {
+            item.style.transitionDelay = `${0.1 * (index + 1)}s`;
+            item.classList.remove('active');
+            item.classList.add('exit');
         });
 
         setTimeout(() => {
-            // Ensure we always start from a multiple of 3
-            currentIndex = Math.floor(currentIndex / skillsPerSet) * skillsPerSet;
+            currentIndex = Math.floor(currentIndex / projectsPerSet) * projectsPerSet;
 
-            // Get next set of skills
-            let skillsToDisplay = [];
-            
-            // Collect the next 3 skills, wrapping around if needed
-            for (let i = 0; i < skillsPerSet; i++) {
-                skillsToDisplay.push(
-                    technicalSkills[(currentIndex + i) % technicalSkills.length]
+            let projectsToDisplay = [];
+            for (let i = 0; i < projectsPerSet; i++) {
+                projectsToDisplay.push(
+                    portfolioProjects[(currentIndex + i) % portfolioProjects.length]
                 );
             }
 
-            // Update DOM
-            skillsContainer.innerHTML = skillsToDisplay
-                .map(skill => createSkillCard(skill))
+            portfolioContainer.innerHTML = projectsToDisplay
+                .map(project => createPortfolioCard(project))
                 .join('');
 
-            // Trigger entrance animation with staggered delay
             requestAnimationFrame(() => {
-                const newCards = skillsContainer.querySelectorAll('.skill-card');
-                newCards.forEach((card, index) => {
-                    // Add staggered transition delay
-                    card.style.transitionDelay = `${0.1 * (index + 1)}s`;
-                    
-                    // Trigger the animation
+                const newItems = portfolioContainer.querySelectorAll('.portfolio-item');
+                newItems.forEach((item, index) => {
+                    item.style.transitionDelay = `${0.1 * (index + 1)}s`;
                     setTimeout(() => {
-                        card.classList.add('active');
+                        item.classList.add('active');
                     }, 100);
                 });
             });
 
-            // Update index
-            currentIndex = (currentIndex + skillsPerSet) % technicalSkills.length;
+            currentIndex = (currentIndex + projectsPerSet) % portfolioProjects.length;
         }, 500);
     }
 
-    // Initialize skills rotation
-    if (skillsContainer) {
-        updateTechnicalSkills(); // Initial render
-        setInterval(updateTechnicalSkills, 5000); // Rotate every 5 seconds
+    // Initialize portfolio rotation
+    if (portfolioContainer) {
+        updatePortfolioProjects();
+        setInterval(updatePortfolioProjects, 5000);
     }
+
+    // Scroll animations
+    const animateElements = document.querySelectorAll('.fade-in, .slide-in');
+
+    function checkScroll() {
+        animateElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight * 0.8) {
+                element.classList.add('active');
+            }
+        });
+    }
+
+    checkScroll();
+    window.addEventListener('scroll', checkScroll);
 });

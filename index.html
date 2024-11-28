@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
+    <div id="particles-js"></div>
     <header>
         <nav>
             <ul>
@@ -29,13 +30,13 @@
                         <img src="./Photos/arcataocean.webp" alt="Trevor Silverman">
                     </div>
                     <div class="profile-text">
-                        <h2>Hello! I'm Trevor Silverman</h2>
-                        <p>Welcome to my portfolio website! I'm a developer based in Portland OR. 
-                           This is my personal website and isn't entirely finnished!</p>
+                        <h2>Welcome to my Portfolio Website!</h2>
+                        <p>I'm a developer based in Portland OR. 
+                           This is my personal website and isn't finnished!<br> Please feel free to reach out to me through the <a href="contact.html" style="text-decoration: none; font-weight: normal; color: inherit;">Contact Page</a> or via Email!</p>
                         <p>I specialize in software development, hardware assembly and dabble in the world of AI.</p>
                     </div>
                 </div>
-            </div>
+            </div> 
         </section>
 
         <section class="skills-section slide-in">
@@ -117,7 +118,72 @@
     <footer>
         <p>&copy; 2023 Trevor Silverman. All rights reserved.</p>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', 'assets/particles.json', function() {
+            console.log('particles.js config loaded');
+        });
+    
+        // Fallback in case the config file doesn't load
+        particlesJS('particles-js',
+          {
+            "particles": {
+              "number": {
+                "value": 80,
+                "density": {
+                  "enable": true,
+                  "value_area": 800
+                }
+              },
+              "color": {
+                "value": "#918feb"
+              },
+              "shape": {
+                "type": "circle"
+              },
+              "opacity": {
+                "value": 0.5,
+                "random": false
+              },
+              "size": {
+                "value": 3,
+                "random": true
+              },
+              "line_linked": {
+                "enable": true,
+                "distance": 150,
+                "color": "#918feb",
+                "opacity": 0.4,
+                "width": 1
+              },
+              "move": {
+                "enable": true,
+                "speed": 2,
+                "direction": "none",
+                "random": false,
+                "straight": false,
+                "out_mode": "out",
+                "bounce": false
+              }
+            },
+            "interactivity": {
+              "detect_on": "canvas",
+              "events": {
+                "onhover": {
+                  "enable": true,
+                  "mode": "repulse"
+                },
+                "onclick": {
+                  "enable": true,
+                  "mode": "push"
+                },
+                "resize": true
+              }
+            },
+            "retina_detect": true
+          }
+        );
+    </script>
     <script src="js/global.js"></script>
     <script src="js/index.js"></script>
 </body>
