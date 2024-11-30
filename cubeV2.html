@@ -251,6 +251,34 @@
             document.querySelector('.nav-links').classList.toggle('active');
         });
 
+        // Variables to track touch positions
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        // Add touch event listeners
+        document.addEventListener('touchstart', (event) => {
+            touchStartY = event.touches[0].clientY;
+        });
+
+        document.addEventListener('touchmove', (event) => {
+            touchEndY = event.touches[0].clientY;
+            handleSwipe();
+        });
+
+        document.addEventListener('touchend', () => {
+            // Reset touch positions
+            touchStartY = 0;
+            touchEndY = 0;
+        });
+
+        function handleSwipe() {
+            const swipeDistance = touchStartY - touchEndY;
+            if (Math.abs(swipeDistance) > 10) { // Threshold to detect swipe
+                window.scrollBy(0, swipeDistance);
+                touchStartY = touchEndY; // Update start position for continuous swipe
+            }
+        }
+
         class EnhancedCube {
             constructor() {
                 // Core Three.js components
