@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Three.js Cube with Navigation</title>
+    <!-- Three.js and required dependencies -->
+    <script src="https://unpkg.com/three@0.134.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://unpkg.com/three@0.134.0/examples/js/loaders/FontLoader.js"></script>
+    <script src="https://unpkg.com/three@0.134.0/examples/js/geometries/TextGeometry.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background: #000;
+            height: 500vh;
+            overflow-x: hidden;
+        }
+
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            z-index: -1; /* Ensure particles are behind other content */
+        }
+
+        #scene-container {
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            z-index: 1; /* Ensure the scene is above the particles */
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 24px;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .error-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1001;
+        }
+
+        header {
+            position: fixed;
+            width: 100%;
+            z-index: 1002;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-family: Arial, sans-serif;
+        }
+
+        .mobile-menu-button {
+            display: none;
+            cursor: pointer;
+        }
+
+        @media (max-width: 400px) {
+            .mobile-menu-button {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.9);
+                position: absolute;
+                top: 60px;
+                right: 20px;
+                padding: 10px;
+                width: 200px;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            z-index: 1003;
+            font-family: Arial, sans-serif;
+        }
+
+        footer a {
+            color: rgb(255, 255, 255);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <header>
+        <div class="mobile-menu-button">
+            <span class="menu-icon">☰</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </header>
+
+    <div id="scene-container"></div>
+    <div class="loading-screen">Loading...</div>
+    <div class="error-message"></div>
+
+    <!-- Footer -->
+    <footer>
+        <ul>
+            <li><a href="https://github.com/ItsTsilv/CubeV2">Click here for the CubeV2 code! The cube is interactive! Click, move your mouse around, scroll to the top and bottom! Once scrolled to the bottom the cube has free rotation with mouse drags!</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Initialize particles.js with interactivity
+        particlesJS('particles-js', {
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#000000"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": false
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 150,
+                    "color": "#ffffff",
+                    "opacity": 0.4,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 2,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "window",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "repulse" // Particles move away from the mouse
+                    },
+                    "onclick": {
+                        "enable": false,
+                        "mode": "push" // Adds more particles on click
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 400,
+                        "line_linked": {
+                            "opacity": 1
+                        }
+                    },
+                    "bubble": {
+                        "distance": 400,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 200,
+                        "duration": 0.4
+                    },
+                    "push": {
+                        "particles_nb": 4
+                    },
+                    "remove": {
+                        "particles_nb": 2
+                    }
+                }
+            },
+            "retina_detect": true
+        });
+
+        // Toggle mobile menu
+        document.querySelector('.mobile-menu-button').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        class EnhancedCube {
+            constructor() {
+                // Core Three.js components
+                this.container = document.getElementById('scene-container');
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                this.renderer = new THREE.WebGLRenderer({ 
+                    antialias: true,
+                    alpha: true
+                });
+                this.clock = new THREE.Clock();
+                this.controls = null;
+
+                // State management
+                this.state = {
+                    isInitial: true,
+                    isScrolling: false,
+                    isFreeRotating: false,
+                    inPortfolioMode: false,
+                    currentStep: 0,
+                    hasScrolled: false
+                };
+
+                // Camera Zoom
+                this.defaultCameraPosition = { x: 0, y: 0.5, z: 5 };
+                this.zoomedCameraPosition = { x: 0, y: 0.5, z: 2.5 };
+                this.unlockedCameraPosition = { x: 0, y: 0.5, z: 7.5 };
+                this.cameraTargetPosition = { ...this.defaultCameraPosition };
+
+                // Animation properties
+                this.cube = null;
+                this.targetRotation = { x: 0, y: 0, z: 0 };
+                this.currentRotation = { x: 0, y: 0, z: 0 };
+                this.momentum = { x: 0, y: 0 };
+                this.mousePosition = { x: 0, y: 0 };
+                this.isDragging = false;
+                this.lastMousePosition = { x: 0, y: 0 };
+
+                // Constants
+                this.FRICTION = 0.95;
+                this.MOMENTUM_THRESHOLD = 0.001;
+                this.FLOAT_SPEED = 3;
+                this.FLOAT_HEIGHT = 0.2;
+
+                // Rotation sequence for portfolio mode
+                this.rotationSequence = [
+                    { x: 0, y: 0, z: 0 },
+                    { x: 0, y: -Math.PI / 2, z: 0 },
+                    { x: Math.PI / 2, y: -Math.PI / 2, z: 0 },
+                    { x: 0, y: -Math.PI, z: 0 },
+                    { x: 0, y: Math.PI / 2, z: 0 },
+                    { x: -Math.PI / 2, y: Math.PI / 2, z: 0 },
+                    { x: 0, y: 0, z: 0 }
+                ];
+            }
+
+            async init() {
+                try {
+                    this.setupRenderer();
+                    this.setupCamera();
+                    this.setupControls();
+                    this.setupLights();
+                    await this.createCube();
+                    this.setupEventListeners();
+                    this.animate();
+                    this.hideLoadingScreen();
+                } catch (error) {
+                    this.showError('Failed to initialize 3D scene: ' + error.message);
+                }
+            }
+
+            setupRenderer() {
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                this.renderer.shadowMap.enabled = true;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                this.container.appendChild(this.renderer.domElement);
+            }
+
+            setupCamera() {
+                this.camera.position.set(this.defaultCameraPosition.x, this.defaultCameraPosition.y, this.defaultCameraPosition.z);
+                this.camera.lookAt(0, 0, 0);
+            }
+
+            setupControls() {
+                if (typeof THREE.OrbitControls === 'undefined') {
+                    console.warn('OrbitControls not loaded, skipping controls setup');
+                    return;
+                }
+                this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+                this.controls.enableDamping = true;
+                this.controls.enabled = false;
+            }
+
+            setupLights() {
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+                this.scene.add(ambientLight);
+
+                const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                mainLight.position.set(5, 5, 5);
+                mainLight.castShadow = true;
+                mainLight.shadow.mapSize.width = 2048;
+                mainLight.shadow.mapSize.height = 2048;
+                this.scene.add(mainLight);
+
+                const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+                fillLight.position.set(-5, -5, -5);
+                this.scene.add(fillLight);
+            }
+
+            async createCube() {
+                try {
+                    const materials = [];
+                    const faceColors = [
+                        0x2196F3, 0xF44336, 0x4CAF50,
+                        0xFF9800, 0x9C27B0, 0xFFEB3B
+                    ];
+
+                    faceColors.forEach(color => {
+                        materials.push(new THREE.MeshPhongMaterial({
+                            color: color,
+                            transparent: true,
+                            opacity: 0.9,
+                            shininess: 30,
+                            specular: 0x444444
+                        }));
+                    });
+
+                    const geometry = new THREE.BoxGeometry(2, 2, 2, 1, 1, 1);
+                    this.cube = new THREE.Mesh(geometry, materials);
+                    this.cube.castShadow = true;
+                    this.cube.receiveShadow = true;
+                    this.scene.add(this.cube);
+
+                    // Removed the call to addTextToFaces
+                } catch (error) {
+                    throw new Error('Failed to create cube: ' + error.message);
+                }
+            }
+
+            setupEventListeners() {
+                document.addEventListener('mousedown', (e) => this.onMouseDown(e));
+                document.addEventListener('mousemove', (e) => this.onMouseMove(e));
+                document.addEventListener('mouseup', () => this.onMouseUp());
+                document.addEventListener('mouseleave', () => this.onMouseLeave());
+                window.addEventListener('scroll', () => this.onScroll());
+                window.addEventListener('resize', () => this.onWindowResize());
+            }
+
+            onMouseDown(event) {
+                if (this.state.isFreeRotating) {
+                    this.isDragging = true;
+                    this.lastMousePosition.x = event.clientX;
+                    this.lastMousePosition.y = event.clientY;
+                    this.momentum = { x: 0, y: 0 };
+                }
+            }
+
+            onMouseMove(event) {
+                if (this.state.isFreeRotating && this.isDragging) {
+                    const deltaX = event.clientX - this.lastMousePosition.x;
+                    const deltaY = event.clientY - this.lastMousePosition.y;
+
+                    this.momentum.x = deltaX * 0.01;
+                    this.momentum.y = deltaY * 0.01;
+
+                    this.targetRotation.y += this.momentum.x;
+                    this.targetRotation.x -= this.momentum.y;
+
+                    this.lastMousePosition.x = event.clientX;
+                    this.lastMousePosition.y = event.clientY;
+                } else if (this.state.isInitial) {
+                    const rect = this.container.getBoundingClientRect();
+                    const x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                    const y = ((event.clientY - rect.top) / rect.height) * 2 - 1;
+
+                    this.targetRotation.y = x * 0.3;
+                    this.targetRotation.x = -y * 0.3;
+                }
+            }
+
+            onMouseUp() {
+                this.isDragging = false;
+            }
+
+            onMouseLeave() {
+                this.isDragging = false;
+            }
+
+            onScroll() {
+                const scrollTop = window.scrollY;
+                const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const scrollPercent = scrollTop / scrollHeight;
+
+                if (scrollTop === 0) {
+                    this.state.isInitial = true;
+                    this.state.inPortfolioMode = false;
+                    this.state.isFreeRotating = false;
+                    this.state.hasScrolled = false;
+                    this.cameraTargetPosition = { ...this.defaultCameraPosition };
+                    this.targetRotation = { x: 0, y: 0, z: 0 };
+                } else {
+                    if (!this.state.hasScrolled) {
+                        this.state.hasScrolled = true;
+                        this.state.isInitial = false;
+                    }
+
+                    if (scrollPercent > 0 && !this.state.inPortfolioMode) {
+                        this.state.inPortfolioMode = true;
+                        this.cameraTargetPosition = { ...this.zoomedCameraPosition };
+                        this.cube.position.y = 0;
+                    }
+
+                    if (this.state.inPortfolioMode) {
+                        const sequenceIndex = Math.floor(scrollPercent * this.rotationSequence.length);
+                        if (sequenceIndex < this.rotationSequence.length) {
+                            this.targetRotation = { ...this.rotationSequence[sequenceIndex] };
+                        } else {
+                            this.state.inPortfolioMode = false;
+                            this.cameraTargetPosition = { ...this.unlockedCameraPosition };
+                            this.state.isFreeRotating = true;
+                        }
+                    } else if (scrollPercent <= 1) {
+                        const zoomFactor = this.defaultCameraPosition.z - this.zoomedCameraPosition.z;
+                        this.cameraTargetPosition.z = this.defaultCameraPosition.z - (zoomFactor * scrollPercent);
+                    } else {
+                        const unlockFactor = this.unlockedCameraPosition.z - this.defaultCameraPosition.z;
+                        this.cameraTargetPosition.z = this.defaultCameraPosition.z + (unlockFactor * (scrollPercent - 1));
+                        this.state.isFreeRotating = true;
+                    }
+                }
+            }
+
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+
+            hideLoadingScreen() {
+                const loadingScreen = document.querySelector('.loading-screen');
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }
+
+            showError(message) {
+                const errorElement = document.querySelector('.error-message');
+                errorElement.textContent = message;
+                errorElement.style.display = 'block';
+            }
+
+            updateRotation() {
+                this.currentRotation.x += (this.targetRotation.x - this.currentRotation.x) * 0.1;
+                this.currentRotation.y += (this.targetRotation.y - this.currentRotation.y) * 0.1;
+                this.currentRotation.z += (this.targetRotation.z - this.currentRotation.z) * 0.1;
+
+                if (this.state.isFreeRotating && !this.isDragging) {
+                    this.momentum.x *= this.FRICTION;
+                    this.momentum.y *= this.FRICTION;
+
+                    if (Math.abs(this.momentum.x) > this.MOMENTUM_THRESHOLD) {
+                        this.targetRotation.y += this.momentum.x;
+                    }
+                    if (Math.abs(this.momentum.y) > this.MOMENTUM_THRESHOLD) {
+                        this.targetRotation.x -= this.momentum.y;
+                    }
+                }
+
+                this.cube.rotation.x = this.currentRotation.x;
+                this.cube.rotation.y = this.currentRotation.y;
+                this.cube.rotation.z = this.currentRotation.z;
+            }
+
+            updateCameraPosition() {
+                const zoomSpeed = 0.1;
+                this.camera.position.x += (this.cameraTargetPosition.x - this.camera.position.x) * zoomSpeed;
+                this.camera.position.y += (this.cameraTargetPosition.y - this.camera.position.y) * zoomSpeed;
+                this.camera.position.z += (this.cameraTargetPosition.z - this.camera.position.z) * zoomSpeed;
+            }
+
+            dispose() {
+                this.cube.geometry.dispose();
+                this.cube.material.forEach(material => material.dispose());
+                if (this.controls) {
+                    this.controls.dispose();
+                }
+                this.renderer.dispose();
+                
+                window.removeEventListener('resize', this.onWindowResize.bind(this));
+                document.removeEventListener('mousedown', this.onMouseDown.bind(this));
+                document.removeEventListener('mousemove', this.onMouseMove.bind(this));
+                document.removeEventListener('mouseup', this.onMouseUp.bind(this));
+                document.removeEventListener('mouseleave', this.onMouseLeave.bind(this));
+                window.removeEventListener('scroll', this.onScroll.bind(this));
+            }
+
+            animate() {
+                requestAnimationFrame(() => this.animate());
+
+                const elapsedTime = this.clock.getElapsedTime();
+
+                if ((this.state.isInitial || this.state.isFreeRotating) && !this.state.inPortfolioMode) {
+                    this.cube.position.y = Math.sin(elapsedTime * this.FLOAT_SPEED) * this.FLOAT_HEIGHT;
+                }
+
+                if (this.controls && this.controls.enabled) {
+                    this.controls.update();
+                } else {
+                    this.updateRotation();
+                    this.updateCameraPosition();
+                }
+
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+
+        const app = new EnhancedCube();
+        app.init().catch(error => {
+            console.error('Application failed to initialize:', error);
+            app.showError('Failed to initialize application. Please refresh the page.');
+        });
+
+        window.addEventListener('unload', () => {
+            app.dispose();
+        });
+    </script>
+</body>
+</html>

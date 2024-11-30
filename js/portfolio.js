@@ -24,6 +24,17 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         },
         { 
+            image: './Photos/cubeV2.png', 
+            name: 'Three.js CubeV2', 
+            type: 'Fun Personal Project',
+            description: 'Interactive Cube with Three.js Library',
+            technologies: ['Three.js', 'HTML', 'CSS'],
+            links: {
+                demo: 'https://itstsilv.github.io/Tsilv.github.io/cubeV2.html',
+                github: 'https://github.com/ItsTsilv/CubeV2'
+            }
+        },
+        { 
             image: './Photos/tftgame.png', 
             name: 'TFT style battle game', 
             type: 'Mobile App',
@@ -37,12 +48,23 @@ document.addEventListener('DOMContentLoaded', function () {
         { 
             image: './Photos/tamadapic.png', 
             name: 'Tamada Decentrium', 
-            type: 'College Group project',
+            type: 'College Group Project',
             description: 'Tamagachi based College Project.',
             technologies: ['MongoDB', 'C#', 'NRS-projects'],
             links: {
                 demo: '#',
                 github: '#'
+            }
+        },
+        { 
+            image: './Photos/cubeV1.png', 
+            name: 'Anime.js CubeV1', 
+            type: 'Fun Personal Project',
+            description: 'created interavive cube with anime.js',
+            technologies: ['HTML', 'anime.js', 'CSS'],
+            links: {
+                demo: '#',
+                github: 'https://github.com/ItsTsilv/CubeV1'
             }
         },
         { 
